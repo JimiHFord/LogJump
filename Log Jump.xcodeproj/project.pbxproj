@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2C27F8DF19844D6B008E53B6 /* BlockStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27F8DE19844D6B008E53B6 /* BlockStatus.swift */; };
+		2C361CA61B1E01310086419C /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C361CA51B1E01310086419C /* Hero.swift */; };
+		2C361CA81B1E114A0086419C /* BasePlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C361CA71B1E114A0086419C /* BasePlatform.swift */; };
+		2C361CAA1B1E4C910086419C /* NormalPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C361CA91B1E4C910086419C /* NormalPlatform.swift */; };
+		2C361CAC1B1E4DB20086419C /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C361CAB1B1E4DB20086419C /* Platform.swift */; };
 		2C5F622019591DD300DE2522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F621F19591DD300DE2522 /* AppDelegate.swift */; };
 		2C5F622219591DD300DE2522 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2C5F622119591DD300DE2522 /* GameScene.sks */; };
 		2C5F622419591DD300DE2522 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F622319591DD300DE2522 /* GameScene.swift */; };
@@ -33,6 +37,10 @@
 
 /* Begin PBXFileReference section */
 		2C27F8DE19844D6B008E53B6 /* BlockStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockStatus.swift; sourceTree = "<group>"; };
+		2C361CA51B1E01310086419C /* Hero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
+		2C361CA71B1E114A0086419C /* BasePlatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlatform.swift; sourceTree = "<group>"; };
+		2C361CA91B1E4C910086419C /* NormalPlatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalPlatform.swift; sourceTree = "<group>"; };
+		2C361CAB1B1E4DB20086419C /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		2C5F621A19591DD300DE2522 /* Log Jump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Log Jump.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C5F621E19591DD300DE2522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C5F621F19591DD300DE2522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +109,10 @@
 				2C27F8DE19844D6B008E53B6 /* BlockStatus.swift */,
 				2CDF34A41984938200030CB0 /* GameDifficulty.swift */,
 				2CDF34A619849A2400030CB0 /* BlockEngine.swift */,
+				2C361CA51B1E01310086419C /* Hero.swift */,
+				2C361CA71B1E114A0086419C /* BasePlatform.swift */,
+				2C361CA91B1E4C910086419C /* NormalPlatform.swift */,
+				2C361CAB1B1E4DB20086419C /* Platform.swift */,
 			);
 			name = "Log Jump iOS";
 			path = "Log Jump";
@@ -233,7 +245,11 @@
 			files = (
 				2CDF34A51984938200030CB0 /* GameDifficulty.swift in Sources */,
 				2C5F622419591DD300DE2522 /* GameScene.swift in Sources */,
+				2C361CAA1B1E4C910086419C /* NormalPlatform.swift in Sources */,
+				2C361CA61B1E01310086419C /* Hero.swift in Sources */,
+				2C361CA81B1E114A0086419C /* BasePlatform.swift in Sources */,
 				2C27F8DF19844D6B008E53B6 /* BlockStatus.swift in Sources */,
+				2C361CAC1B1E4DB20086419C /* Platform.swift in Sources */,
 				2C6D7E5719843ABD00C1DB41 /* PlayScene.swift in Sources */,
 				2C5F622619591DD300DE2522 /* GameViewController.swift in Sources */,
 				2CDF34A719849A2400030CB0 /* BlockEngine.swift in Sources */,

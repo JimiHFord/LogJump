@@ -7,12 +7,18 @@
 //
 
 import Foundation
+import CoreGraphics
+
+func rnd() -> CGFloat {
+    return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+}
 
 class BlockEngine {
-    let platforms = [ "short_block", "tall_block"]
     
-    func pick() -> String {
-        let result = Int(arc4random_uniform(UInt32(platforms.count)))
-        return platforms[result]
+    func pick() -> Platform {
+        let width = (rnd() * 50) + 25
+        let height = CGFloat(10)
+        let retVal = NormalPlatform(width: width, height: height, cornerRadius: CGFloat(5))
+        return retVal
     }
 }

@@ -11,7 +11,8 @@ import SpriteKit
 class PlayScene: SKScene, SKPhysicsContactDelegate {
     
     let runningBar = SKSpriteNode(imageNamed:"bar")
-    let hero = SKSpriteNode(imageNamed:"hero")
+//    let hero = SKSpriteNode(imageNamed:"hero")
+    let hero = Hero()
     var score = UInt32(0)
     let scoreText = SKLabelNode(fontNamed:"Chalkduster")
     
@@ -21,8 +22,6 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
     let tallBlock = SKSpriteNode(imageNamed:"tall_block")
     var groundSpeed = CGFloat(3.5)
     var heroBaseLine = CGFloat(0)
-    var onGround = true
-    var velocityY = CGFloat(0)
     let gravity = CGFloat(0.6)
     
     let gd = GameDifficulty()
@@ -49,15 +48,18 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
             scene.size = skView!.bounds.size
             scene.scaleMode = .AspectFill
             skView!.presentScene(scene)
+
         }
     }
     
     var blockStatuses:Dictionary<String, BlockStatus> = [:]
     
+    /// initialize view
     override func didMoveToView(view: SKView) {
         
+        // set background
         self.backgroundColor = UIColor(hex: 0x80D9FF)
-        
+//        let s = SKSpriteNode(
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0, -0.2)
         self.runningBar.anchorPoint = CGPointMake(0, 0.5)
@@ -69,11 +71,10 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         self.maxBarX = self.runningBar.size.width - self.frame.size.width
         self.maxBarX *= -1
         
-        self.heroBaseLine = self.runningBar.position.y + (self.runningBar.size.height / 2) + (self.hero.size.height/2)
-        self.hero.position = CGPointMake(CGRectGetMinX(self.frame) + self.hero.size.width + (self.hero.size.width / 4), self.heroBaseLine)
+        self.heroBaseLine = self.runningBar.position.y + (self.runningBar.size.height / 2) + (self.hero.size/2)
+        self.hero.node.position = CGPointMake(CGRectGetMinX(self.frame) + self.hero.size + (self.hero.size / 4), self.heroBaseLine)
         
-        self.hero.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(self.hero.size.width / 2))
-        self.hero.physicsBody!.affectedByGravity = false
+        
 //        self.hero.physicsBody.categoryBitMask = ColliderType.Hero.toRaw()
 //        self.hero.physicsBody.contactTestBitMask = ColliderType.Block.toRaw()
 //        self.hero.physicsBody.collisionBitMask = ColliderType.Block.toRaw()
@@ -112,7 +113,7 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         
 //        self.addChild(self.scoreText)
 //        self.addChild(self.runningBar)
-        self.addChild(self.hero)
+        self.addChild(self.hero.node)
 //        self.addChild(self.shortBlock)
 //        self.addChild(self.tallBlock)
     }
@@ -125,43 +126,28 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
 
     
     override func update(currentTime: NSTimeInterval) {
-        if self.runningBar.position.x <= maxBarX {
-            self.runningBar.position.x = self.originRunningBarPositionX
-        }
-
-        //jump
-        self.velocityY += self.gravity
-        self.hero.position.y -= velocityY
-        
-        if self.hero.position.y < self.heroBaseLine {
-            self.hero.position.y = self.heroBaseLine
-            self.velocityY = 0.0
-            self.onGround = true
+        if self.hero.node.position.y <= self.heroBaseLine {
+            self.hero.node.position.y = self.heroBaseLine
+            self.hero.velocityY = 0.0
+            self.hero.landed()
         }
         
-        //rotate the hero
-        var degreeRotation = CDouble(self.groundSpeed) * M_PI / 180
-        //rotate the hero
-        self.hero.zRotation -= CGFloat(degreeRotation)
-        //move the ground
-        self.runningBar.position.x -= CGFloat(self.groundSpeed)
         dropBlock()
-//        blockRunner()
     }
 
     func dropBlock() {
         if gd.shouldDropPlatform() {
-            let block = SKSpriteNode(imageNamed:ben.pick())
-            block.physicsBody = SKPhysicsBody(rectangleOfSize:block.size)
-            block.physicsBody!.dynamic = true
-            block.physicsBody!.affectedByGravity = true
-//            block.physicsBody.categoryBitMask = ColliderType.Block.toRaw()
-//            block.physicsBody.contactTestBitMask = ColliderType.Hero.toRaw()
-//            block.physicsBody.collisionBitMask = ColliderType.Hero.toRaw()
-            positionBlock(block)
-            self.addChild(block)
-            block.physicsBody!.applyTorque(1)
-            block.physicsBody!.applyImpulse(CGVectorMake(0, 0))
+            let block = ben.pick()
+            let node = block.node
+            node.physicsBody!.dynamic = true
+            node.physicsBody!.affectedByGravity = true
+//            node.physicsBody.categoryBitMask = ColliderType.node.toRaw()
+//            node.physicsBody.contactTestBitMask = ColliderType.Hero.toRaw()
+//            node.physicsBody.collisionBitMask = ColliderType.Hero.toRaw()
+            positionBlock(node)
+            self.addChild(node)
+//            node.physicsBody!.applyTorque(CGFloat(0.05))
+            node.physicsBody!.applyImpulse(CGVectorMake(-3, 0))
         }
     }
     
@@ -181,6 +167,8 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    /// this is for the old game that i modified
+    /// blocks come in and you have to jump over them
     func blockRunner() {
         for(block, blockStatus) in self.blockStatuses {
             var thisBlock = self.childNodeWithName(block)
@@ -211,16 +199,14 @@ class PlayScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
-//        if self.onGround {
-//            self.velocityY = -18.0
-//            self.onGround = false
-//        }
-//    }
+    // jump / launch
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.hero.jump(CGVector(dx: CGFloat(0), dy: CGFloat(0.4)))
+    }
     
-//    override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
-//        if self.velocityY < -9.0 {
-//            self.velocityY = -9.0
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+//        if self.hero.velocityY < -9.0 {
+//            self.hero.velocityY = -9.0
 //        }
-//    }
+    }
 }

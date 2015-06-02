@@ -31,6 +31,8 @@ class GameScene: SKScene {
                 scene.scaleMode = .ResizeFill
                 scene.size = skView!.bounds.size
                 skView!.presentScene(scene)
+                skView?.showsFPS = true
+                skView?.showsNodeCount = true
             }
         }
     }
